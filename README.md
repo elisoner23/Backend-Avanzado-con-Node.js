@@ -171,8 +171,6 @@ Prefijo base: `/api`
 | `GET` | `/api/auth/perfil` | JWT (`requireAuth`) | Devuelve el perfil del usuario autenticado (`id, nombre, email, rol`). |
 | `GET` | `/api/auth/usuarios` | JWT + Rol `ADMIN` | Lista todos los usuarios registrados. |
 
-> \* **Importante:** a diferencia de las demás rutas sensibles, `PATCH /api/auth/usuarios/:id/password` actualmente **no** tiene el middleware `requireAuth` aplicado en `auth.routes.js`, por lo que cualquiera que conozca el `id` y la contraseña actual podría cambiarla sin estar autenticado. Se recomienda agregar `requireAuth` a esta ruta (ver [Notas y posibles mejoras](#notas-y-posibles-mejoras)).
-
 #### Ejemplo — Registro
 ```http
 POST /api/auth/registro
