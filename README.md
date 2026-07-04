@@ -270,18 +270,3 @@ CE_JUTTA/
 ├── .env.example
 └── package.json
 ```
-
-## Notas y posibles mejoras
-
-Durante el análisis del código se identificaron algunos puntos que conviene tener en cuenta para robustecer el proyecto:
-
-1. **Ruta de cambio de contraseña sin autenticación**: `PATCH /api/auth/usuarios/:id/password` no aplica el middleware `requireAuth`. Se recomienda protegerla y validar que el `id` del token coincida con el `id` de la ruta (o restringirla al propio usuario/administrador).
-2. **`listarUsuarios` en `auth.service.js` no retorna datos**: la función obtiene `usuarios` del repositorio pero no incluye un `return`, por lo que el endpoint `GET /api/auth/usuarios` actualmente devolvería `undefined`. Falta agregar `return usuarios;`.
-3. **Captura de errores de Prisma**: en `errorHandler.js` se comprueba `err instanceof Prisma.PrismaClientUnknownRequestError` para los códigos `P2002`/`P2025`, pero estos códigos pertenecen normalmente a `Prisma.PrismaClientKnownRequestError`. Conviene revisar y ajustar la clase usada para que el manejo de errores de restricción única y "no encontrado" funcione como se espera.
-4. **Script de producción**: agregar `"start": "node index.js"` en `package.json` para desplegar sin `--watch`.
-5. **Validación de entrada**: actualmente las validaciones son manuales dentro de los servicios; para un proyecto más grande podría convenir una librería de validación de esquemas (por ejemplo, Zod o Joi).
-6. **Documentación de API**: no se encontró una colección de Postman ni documentación Swagger en este proyecto (a diferencia de otros proyectos recientes del autor); podría añadirse para facilitar las pruebas manuales.
-
----
-
-*README generado a partir del análisis del código fuente del proyecto `CE_JUTTA` (Node.js/Express + Prisma + PostgreSQL).*
